@@ -81,7 +81,7 @@ int main(){
     u_int count=0;
     isTimerFinished=false;
     Start=tic();
-    while (count<(FIN_TIME*10))
+    while (count<(FIN_TIME*10)) 		//for ease of use we let the program run just for the time needed and not forever
     {   pthread_cond_signal(timer_cond_bt);
         if (count%(TEST_TIME*10)==0)
         {
