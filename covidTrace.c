@@ -1,7 +1,7 @@
 //RTES 2021
 //SPAIAS GEORGIOS
 //AEM: 8910
-
+//Potential solutions for time drift at lines 89,96,97(First way) and line 99(Second Way)
 #include "CovidTrace.h"
 
 #define FIN_TIME 25920 // in seconds
@@ -77,18 +77,26 @@ int main(){
     if(pthread_create(&tid_2,NULL,covT_thr_routine, &pth_data)!=0){
         perror("Error: could not create thread 2");
     }
-
+    
+    struct timeval block_start;
+    struct timeval block_finish;
+    *
     u_int count=0;
     isTimerFinished=false;
     Start=tic();
     while (count<(FIN_TIME*10)) 		//for ease of use we let the program run just for the time needed and not forever
-    {   pthread_cond_signal(timer_cond_bt);
+    {   
+      //gettimeofday(&block_start,NULL); 	//First way to reduce Time drift 
+	pthread_cond_signal(timer_cond_bt);
         if (count%(TEST_TIME*10)==0)
         {
            pthread_cond_signal(timer_cond_covT);
         }
         count++ ;
+      //gettimeofday(&block_finish,NULL);
+      //usleep(100000-abs(block_finish.tv_usec-block_start.tv_usec)-100);    
         usleep(100000);
+      //usleep(99800); 			  	//Second way to reduce time drift by substracting average delay (200us)
     }
     isTimerFinished=true;
     sleep(2);
