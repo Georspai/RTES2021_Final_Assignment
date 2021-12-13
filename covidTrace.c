@@ -94,7 +94,7 @@ int main(){
         }
         count++ ;
       //gettimeofday(&block_finish,NULL);
-      //usleep(100000-abs(block_finish.tv_usec-block_start.tv_usec)-100);    
+      //usleep(100000-(block_finish.tv_sec-block_start.tv_sec)*1000000-(block_finish.tv_usec-block_start.tv_usec));    
         usleep(100000);
       //usleep(99800); 			  	//Second way to reduce time drift by substracting average delay (200us)
     }
